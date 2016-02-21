@@ -1,9 +1,18 @@
 .logo{
-	margin-top:150px;
+	margin-top:110px;
 }
 
-#wiki_content{
-	margin-top:50px;
+#wiki_logo{
+	height: 100px;
+	width: 110px;
+	margin-right: 30px;
+	margin-bottom: 15px;
+}
+
+.footer{
+	position: absolute;
+ 	bottom: 0;
+ 	width: 100%;
 }
 
 #wiki_link{
