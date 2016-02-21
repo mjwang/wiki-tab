@@ -6,7 +6,7 @@
   "version": "1.0",
 
   "permissions": [
-    "http://en.wikipedia.org/"
+    "https://en.wikipedia.org/"
   ],
 
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",

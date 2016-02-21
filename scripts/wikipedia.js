@@ -1,6 +1,47 @@
+var wikipedia_base_url = "https://en.wikipedia.org/w/api.php";
+
 $(document).ready(function(){
 	
-	$("#wiki_summary").html("Shabby chic pinterest keytar hoodie blue bottle. Tacos fingerstache small batch, health goth disrupt waistcoat 8-bit franzen meggings vinyl lo-fi kogi. Mlkshk kickstarter poutine twee taxidermy, godard brooklyn offal forage. Synth kickstarter roof party, tilde messenger bag slow-carb XOXO man braid flexitarian 90's mumblecore irony affogato. Health goth VHS banh mi yr tumblr, tousled chia four dollar toast banjo narwhal post-ironic. Lo-fi master cleanse offal, kogi man braid tilde neutra street art swag fingerstache heirloom. You probably haven't heard of them polaroid offal, pork belly dreamcatcher +1 marfa brooklyn beard health goth church-key.");
+	getRandomWikiArticle();
 
-	$("a").attr("href", "https://en.wikipedia.org");
 })
+
+var getRandomWikiArticle = function() {
+
+	var articleId;
+
+	var random_request = $.ajax({
+        url: wikipedia_base_url + "?action=query&generator=random&grnnamespace=0&grnlimit=1&prop=info&inprop=url&format=json",
+        type: "GET",
+        success: function(data, textStatus) {	
+        	articleId = Object.keys(data.query.pages)[0];
+        	var articleUrl = data.query.pages[articleId].fullurl;
+        	var articleTitle = data.query.pages[articleId].title;
+        	$("a").attr("href", articleUrl);
+        	$(".logo").html(articleTitle);
+        	loadWikiSummary(articleId);
+        },
+        error: function() {
+        	console.log("Error fetching random article.");
+        }
+    });
+
+}
+
+var loadWikiSummary = function(articleId) {
+
+	var article_request = $.ajax({
+		url: wikipedia_base_url + "?action=query&pageids=" + articleId + "&prop=extracts&explaintext=%27%27&exintro=%27%27&format=json",
+		type: "GET",
+		success: function(data, textStatus) {
+			console.log(data);
+			var articleSummary = data.query.pages[articleId].extract;
+
+			$("#wiki_summary").html(articleSummary);
+		},
+		error: function() {
+			console.log("Error fetching article summary.")
+		}
+	});
+
+}
